@@ -12,8 +12,6 @@ function Spring({nodeA, nodeB}) {
 		let delta = other.position.difference(_node.position);
 		let dx = delta.getLength() - this.targetLength;
 
-		window.energy += this.springConstant * Math.pow(dx, 2) * .5;
-
 		return delta.setLength(dx * -this.springConstant);
 	}
 

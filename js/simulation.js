@@ -16,7 +16,7 @@ const Simulation = new function() {
 	let prevFrame = new Date();
 	this.update = function() {
 		let dt = (new Date() - prevFrame) / 1000;
-		if (dt > .1) dt = .1;
+		if (dt > .01) dt = .01;
 
 		Renderer.render();
 		for (let node of this.nodes)
@@ -32,7 +32,7 @@ const Simulation = new function() {
 		}
 		
 		prevFrame = new Date();	
-		setTimeout(() => Simulation.update(), 10);
+		setTimeout(() => Simulation.update(), 1);
 	}
 
 	this.draw = function() {
