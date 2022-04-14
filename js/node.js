@@ -8,16 +8,16 @@ function Node({position = new Vector(0, 0)}) {
 	this.position = position;
 	this.velocity = new Vector(0, 0);
 
-	let nettoForce;
+	this.nettoForce = new Vector(0, 0);
 	this.update = function() {
 		let gravity = new Vector(0, 9.81 * nodeMass);
-		nettoForce = new Vector(0, 0); // Gravity;
+		this.nettoForce = new Vector(0, 0); // Gravity;
 
 
 		for (let spring of this.springs)
 		{
 			let springForce = spring.calcForce(this);
-			nettoForce.add(springForce);
+			this.nettoForce.add(springForce);
 			
 			if (Renderer.settings.drawForces)
 			{
@@ -31,9 +31,9 @@ function Node({position = new Vector(0, 0)}) {
 		
 
 		// let friction = this.velocity.copy().setLength(-.001);
-		let friction = this.velocity.copy().scale(-.99);
-		nettoForce.add(friction);
-		nettoForce.add(gravity);
+		let friction = this.velocity.copy().scale(-.999);
+		this.nettoForce.add(friction);
+		this.nettoForce.add(gravity);
 
 		if (!Renderer.settings.drawForces) return;
 		
@@ -45,13 +45,13 @@ function Node({position = new Vector(0, 0)}) {
 	
 		Renderer.drawVector({
 			start: this.position,
-			delta: nettoForce.copy().scale(vectorScalar),
+			delta: this.nettoForce.copy().scale(vectorScalar),
 			color: '#f00'
 		});
 	}
 
 	this.applyUpdate = function(_dt) {
-		this.velocity.add(nettoForce.scale(_dt / nodeMass));
+		this.velocity.add(this.nettoForce.scale(_dt / nodeMass));
 		this.position.add(this.velocity.copy().scale(_dt));
 	}
 

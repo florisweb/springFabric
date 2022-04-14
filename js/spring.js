@@ -5,7 +5,7 @@ function Spring({nodeA, nodeB}) {
 	this.nodeB = nodeB;
 	
 	this.targetLength = scale;
-	this.springConstant = 400;
+	this.springConstant = 1000;
 
 	this.calcForce = function(_node) {
 		let other = getOtherNode(_node);

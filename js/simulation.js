@@ -1,10 +1,13 @@
 
 let Renderer;
+let InputHandler;
 const Simulation = new function() {
 	this.nodes = [];
 
 	this.setup = function() {
-		Renderer = new _Renderer(renderCanvas);
+		Renderer 		= new _Renderer(renderCanvas);
+		InputHandler 	= new _InputHandler(renderCanvas);
+		
 
 		this.update();
 		this.draw();
@@ -20,6 +23,9 @@ const Simulation = new function() {
 		{
 			node.update();
 		}
+
+		InputHandler.update();
+
 		for (let node of this.nodes)
 		{
 			node.applyUpdate(dt);
