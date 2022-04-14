@@ -18,7 +18,7 @@ const Simulation = new function() {
 		let dt = (new Date() - prevFrame) / 1000;
 		if (dt > .01) dt = .01;
 
-		Renderer.render();
+		// Renderer.render();
 		for (let node of this.nodes)
 		{
 			node.update();
@@ -37,7 +37,7 @@ const Simulation = new function() {
 
 	this.draw = function() {
 		Renderer.render();
-		// requestAnimationFrame(Simulation.draw);
+		requestAnimationFrame(Simulation.draw);
 	}
 }
 
@@ -53,7 +53,7 @@ for (let y = 0; y < height; y++)
 	nodes[y] = [];
 	for (let x = 0; x < width; x++)
 	{
-		let curPos = new Vector(x * scale + 2, y * scale + 2);
+		let curPos = new Vector(x * scale + 2, y * scale + 1);
 		if (y == 0)
 		{
 			nodes[y][x] = new FixedNode({position: curPos});

@@ -9,15 +9,16 @@ function _Renderer(_canvas) {
 	}
 	this.camera = new _Renderer_camera(Canvas);
 
+
 	this.render = function() {
 		ctx.clearRect(0, 0, Canvas.width, Canvas.height);
 		for (let node of Simulation.nodes) drawNode(node);
 	}
 	
 	
-	const nodePxRadius = nodeRadius * this.camera.getPxToWorldScalar();
 
 	function drawNode(_node) {
+		const nodePxRadius = nodeRadius * This.camera.getPxToWorldScalar();
 		let pos = This.camera.worldToPxCoord(_node.position);
 		ctx.fillStyle = '#555';
 		if (_node.isFixed) ctx.fillStyle = '#f00';
@@ -59,8 +60,16 @@ function _Renderer(_canvas) {
 
 function _Renderer_camera(_canvas) {
 	const WorldWidth = 20;
-	const PxToWorld = _canvas.width / WorldWidth;
-	const WorldToPx = 1 / PxToWorld;
+	let PxToWorld;
+	let WorldToPx;
+
+	window.onresize = function() {
+		_canvas.width = _canvas.offsetWidth;
+		_canvas.height = _canvas.offsetHeight;
+		PxToWorld = _canvas.width / WorldWidth;
+		WorldToPx = 1 / PxToWorld;
+	}
+	window.onresize();
 
 	this.getPxToWorldScalar = function() {
 		return PxToWorld;
