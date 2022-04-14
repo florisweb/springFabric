@@ -1,5 +1,5 @@
 const nodeMass = 1;
-const nodeRadius = .3;
+const nodeRadius = .1;
 const vectorScalar = .1;
 
 function Node({position = new Vector(0, 0)}) {
@@ -13,7 +13,6 @@ function Node({position = new Vector(0, 0)}) {
 		let gravity = new Vector(0, 9.81 * nodeMass);
 		nettoForce = new Vector(0, 0); // Gravity;
 
-		
 
 		for (let spring of this.springs)
 		{

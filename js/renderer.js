@@ -14,13 +14,13 @@ function _Renderer(_canvas) {
 	
 	const WorldWidth = 20;
 	const PxToWorld = _canvas.width / WorldWidth;
-	const nodePxRadiius = nodeRadius * PxToWorld;
+	const nodePxRadius = nodeRadius * PxToWorld;
 	function drawNode(_node) {
 		let pos = _node.position.copy().scale(PxToWorld);
 		ctx.fillStyle = '#555';
 		if (_node.isFixed) ctx.fillStyle = '#f00';
 		ctx.beginPath();
-		ctx.fillRect(pos.value[0] - nodePxRadiius, pos.value[1] - nodePxRadiius, nodePxRadiius * 2, nodePxRadiius * 2);
+		ctx.fillRect(pos.value[0] - nodePxRadius, pos.value[1] - nodePxRadius, nodePxRadius * 2, nodePxRadius * 2);
 		ctx.closePath();
 		ctx.fill();
 

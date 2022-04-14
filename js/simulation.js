@@ -38,16 +38,16 @@ const Simulation = new function() {
 
 
 let nodes = [];
-const scale = 2;
-const width = 5;
-const height = 5;
+const scale = .5;
+const width = 30;
+const height = 20;
 
 for (let y = 0; y < height; y++)
 {
 	nodes[y] = [];
 	for (let x = 0; x < width; x++)
 	{
-		let curPos = new Vector(x * scale + 5, y * scale + 2);
+		let curPos = new Vector(x * scale + 2, y * scale + 2);
 		if (y == 0)
 		{
 			nodes[y][x] = new FixedNode({position: curPos});
