@@ -1,9 +1,9 @@
 
 function Spring({nodeA, nodeB}) {
-	const This = this;
-	this.nodeA = nodeA;
-	this.nodeB = nodeB;
-	
+	const This 	= this;
+	this.nodeA 	= nodeA;
+	this.nodeB 	= nodeB;
+	this.id 	= Symbol();
 	this.targetLength = scale;
 	this.springConstant = 1000;
 
@@ -13,6 +13,13 @@ function Spring({nodeA, nodeB}) {
 		let dx = delta.getLength() - this.targetLength;
 
 		return delta.setLength(dx * -this.springConstant);
+	}
+	this.cut = function() {
+		let indexA = this.nodeA.springs.findIndex((_string) => _string.id == this.id);
+		this.nodeA.springs.splice(indexA, 1);
+		
+		let indexB = this.nodeB.springs.findIndex((_string) => _string.id == this.id);
+		this.nodeB.springs.splice(indexB, 1);
 	}
 
 	this.getOtherNode = getOtherNode;

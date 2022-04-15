@@ -18,7 +18,7 @@ const Simulation = new function() {
 		let dt = (new Date() - prevFrame) / 1000;
 		if (dt > .01) dt = .01;
 
-		// Renderer.render();
+		Renderer.render();
 		for (let node of this.nodes)
 		{
 			node.update();
@@ -37,16 +37,16 @@ const Simulation = new function() {
 
 	this.draw = function() {
 		Renderer.render();
-		requestAnimationFrame(Simulation.draw);
+		// requestAnimationFrame(Simulation.draw);
 	}
 }
 
 
 
 let nodes = [];
-const scale = .5;
-const width = 30;
-const height = 20;
+const scale = .25;
+const width = 60;
+const height = 30;
 
 for (let y = 0; y < height; y++)
 {

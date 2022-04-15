@@ -1,5 +1,3 @@
-const nodeMass = 1;
-const nodeRadius = .1;
 const vectorScalar = .1;
 
 function Node({position = new Vector(0, 0)}) {
@@ -9,8 +7,9 @@ function Node({position = new Vector(0, 0)}) {
 	this.velocity = new Vector(0, 0);
 
 	this.nettoForce = new Vector(0, 0);
+	this.mass = 1;
 	this.update = function() {
-		let gravity = new Vector(0, 9.81 * nodeMass);
+		let gravity = new Vector(0, 9.81 * this.mass);
 		this.nettoForce = new Vector(0, 0); // Gravity;
 
 
@@ -51,7 +50,7 @@ function Node({position = new Vector(0, 0)}) {
 	}
 
 	this.applyUpdate = function(_dt) {
-		this.velocity.add(this.nettoForce.scale(_dt / nodeMass));
+		this.velocity.add(this.nettoForce.scale(_dt / this.mass));
 		this.position.add(this.velocity.copy().scale(_dt));
 	}
 
