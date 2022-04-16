@@ -15,33 +15,70 @@ const Simulation = new function() {
 
 		this.update();
 		this.draw();
-	}
+	}	
+	this.speed = 1;
 
+	const maxDtPerUpdateSet = 10;
 	let prevFrame = new Date();
+
+
+	this.updates = 0;
 	this.update = function() {
 		let dt = (new Date() - prevFrame) / 1000;
 		if (dt > .01) dt = .01;
 
-		Renderer.render();
-		for (let node of this.nodes)
+		let start = new Date();
+		for (let i = 0; i < this.speed; i++)
 		{
-			node.update();
-		}
+			this.updates++;
+			for (let node of this.nodes)
+			{
+				node.update();
+			}
 
-		InputHandler.update();
+			InputHandler.update();
 
-		for (let node of this.nodes)
-		{
-			node.applyUpdate(dt);
+			for (let node of this.nodes)
+			{
+				node.applyUpdate(dt);
+			}
 		}
 		
+		let delta = new Date() - start;
+		if (delta > maxDtPerUpdateSet) 
+		{
+			let maxSpeed = maxDtPerUpdateSet * this.speed / delta;
+			this.speed = maxSpeed;
+			this.speed *= .9;
+		}
 		prevFrame = new Date();	
-		setTimeout(() => Simulation.update(), 1);
+		setTimeout(() => Simulation.update(), 0);
+
+		if (!calcingMaxSpeed) return;
+		maxSpeedSum += maxDtPerUpdateSet * this.speed / delta;
+		curMaxSpeedCounts++;
+		if (curMaxSpeedCounts < 100) return;
+		resolveSpeedCalcer(maxSpeedSum / 100);
+	}
+
+	let calcingMaxSpeed = false;
+	let maxSpeedSum = 0;
+	let curMaxSpeedCounts = 0;
+	let resolveSpeedCalcer;
+	this.calcMaxSpeed = async function() {
+		let result = await new Promise(function(_resolve) {
+			calcingMaxSpeed = true;
+			maxSpeedSum = 0;
+			curMaxSpeedCounts = 0;
+			resolveSpeedCalcer = _resolve;
+		});
+		calcingMaxSpeed = false;
+		return result;
 	}
 
 	this.draw = function() {
 		Renderer.render();
-		// requestAnimationFrame(Simulation.draw);
+		requestAnimationFrame(Simulation.draw);
 	}
 
 
@@ -64,9 +101,9 @@ const Simulation = new function() {
 
 
 let nodes = [];
-const scale = .25;
-const width = 60;
-const height = 30;
+const scale = .5;
+const width = 30;
+const height = 20;
 
 for (let y = 0; y < height; y++)
 {
