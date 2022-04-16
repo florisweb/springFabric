@@ -18,7 +18,10 @@ function _Renderer(_canvas) {
 	
 
 	function drawNode(_node) {
-		const nodePxRadius = nodeRadius * This.camera.getPxToWorldScalar();
+		for (let spring of _node.springs) drawSpring(spring);
+		if (!_node.isFixed) return;
+	
+		const nodePxRadius = _node.mass / Math.PI * .25 * This.camera.getPxToWorldScalar();
 		let pos = This.camera.worldToPxCoord(_node.position);
 		ctx.fillStyle = '#555';
 		if (_node.isFixed) ctx.fillStyle = '#f00';
@@ -26,14 +29,15 @@ function _Renderer(_canvas) {
 		ctx.fillRect(pos.value[0] - nodePxRadius, pos.value[1] - nodePxRadius, nodePxRadius * 2, nodePxRadius * 2);
 		ctx.closePath();
 		ctx.fill();
-
-		for (let spring of _node.springs) drawSpring(spring);
 	}
 
 	function drawSpring(_spring) {
 		let posA = This.camera.worldToPxCoord(_spring.nodeA.position);
 		let posB = This.camera.worldToPxCoord(_spring.nodeB.position);
-
+		// let delta = posA.difference(posB);
+		// let v = delta.getLength() / This.camera.getPxToWorldScalar() / _spring.targetLength * .5 * 255 - 25;
+		// ctx.strokeStyle = 'rgb(' + v + ', ' + v + ', ' + v + ')';
+		// ctx.lineWidth = 20;
 		ctx.strokeStyle = '#777';
 		ctx.beginPath()
 		ctx.moveTo(posA.value[0], posA.value[1]);
@@ -59,15 +63,15 @@ function _Renderer(_canvas) {
 }	
 
 function _Renderer_camera(_canvas) {
-	const WorldWidth = 20;
 	let PxToWorld;
 	let WorldToPx;
 
 	window.onresize = function() {
 		_canvas.width = _canvas.offsetWidth;
 		_canvas.height = _canvas.offsetHeight;
-		PxToWorld = _canvas.width / WorldWidth;
+		PxToWorld = _canvas.width / Simulation.size.value[0];
 		WorldToPx = 1 / PxToWorld;
+		Simulation.size.value[1] = WorldToPx * _canvas.height;
 	}
 	window.onresize();
 

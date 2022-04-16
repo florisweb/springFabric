@@ -2,6 +2,10 @@
 let Renderer;
 let InputHandler;
 const Simulation = new function() {
+	this.settings = {
+		enableSpringBreaking: false
+	}
+	this.size = new Vector(20, 10);
 	this.nodes = [];
 
 	this.setup = function() {
@@ -38,6 +42,22 @@ const Simulation = new function() {
 	this.draw = function() {
 		Renderer.render();
 		// requestAnimationFrame(Simulation.draw);
+	}
+
+
+	this.removeUnUsedNodes = function() {
+		for (let i = this.nodes.length - 1; i >= 0; i--)
+		{
+			let x = this.nodes[i].position.value[0];
+			let y = this.nodes[i].position.value[1];
+			if (!(
+				(x < -this.size.value[0] || x > this.size.value[0] * 2) ||
+				(y < -this.size.value[1] || y > this.size.value[1] * 2)
+			)) continue;
+
+			for (let n = this.nodes[i].springs.length - 1; n >= 0; n--) this.nodes[i].springs[n].cut();
+			this.nodes.splice(i, 1);
+		}
 	}
 }
 

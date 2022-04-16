@@ -1,6 +1,8 @@
 
 
 function _InputHandler(_canvas) {
+	const This = this;
+	this.dragProtectionEnabled = false;
 	let dragging = false;
 	let targetNode = false;
 	const maxNodeDistanceSquared = Math.pow(2, 2);
@@ -15,6 +17,7 @@ function _InputHandler(_canvas) {
 		targetNode = nodeSet.node;
 		targetNode.isFixed = true;
 		dragging = true;
+		This.dragProtectionEnabled = true;
 	});
 
 	window.addEventListener('mouseup', function(_e) {
@@ -22,6 +25,7 @@ function _InputHandler(_canvas) {
 		if (!targetNode) return;
 		targetNode.isFixed = false;
 		targetNode = false;
+		setTimeout(() => This.dragProtectionEnabled = false, 500);
 	});
 
 	let curMousePos;
