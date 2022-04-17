@@ -6,6 +6,10 @@
 				position: fixed;
 				height: 100vh;
 				overflow: hidden;
+				font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
+			}
+			* {
+				box-sizing: border-box;
 			}
 
 			#renderCanvas {
@@ -15,12 +19,35 @@
 				
 				width: 100vw;
 				height: 100vh;
-				border:  1px solid red;
+				background: rgb(255, 250, 245);
+			}
+
+			.panel {
+				position: relative;
+				z-index: 100;
+				background: #fff;
+				box-shadow: 5px 5px 10px 10px rgba(0, 0, 0, .02);
+				padding: 20px;
+				border-radius: 5px;
+			}
+
+			#settingsPanel.panel {
+				position: relative;
+				float:  right;
+				top: 10px;
+				right: 10px;
 			}
 		</style>
 		<title>SpringFabricSim</title>
 	</head>
 	<body>
+		<div class='panel' id='settingsPanel'>
+			<input type='range' min='0' max='1' step=".01" id='simulationSpeed' value='.17'>
+			<label for="simulationSpeed" id='simulationSpeedLabel'>Simulation Speed (1)</label><br>
+			<br>
+			<input type='checkbox' id='stringRaptureEnabled' onclick="Simulation.settings.enableSpringBreaking = this.checked">
+			<label for="stringRaptureEnabled">Allow string rapture</label><br>
+		</div>
 		<canvas id="renderCanvas" width="600" height="600"></canvas>
 
 		<script type="text/javascript" src="js/vector.js"></script>
@@ -28,6 +55,7 @@
 		<script type="text/javascript" src="js/spring.js"></script>
 		<script type="text/javascript" src="js/renderer.js"></script>
 		<script type="text/javascript" src="js/inputHandler.js"></script>
+		<script type="text/javascript" src="js/ui.js"></script>
 		<script type="text/javascript" src="js/simulation.js"></script>
 
 
