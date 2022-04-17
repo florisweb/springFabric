@@ -13,6 +13,7 @@ function _Renderer(_canvas) {
 	this.render = function() {
 		ctx.clearRect(0, 0, Canvas.width, Canvas.height);
 		for (let node of Simulation.nodes) drawNode(node);
+		drawVectorList();
 	}
 	
 	
@@ -47,6 +48,20 @@ function _Renderer(_canvas) {
 		ctx.stroke();
 	}
 
+	function drawVectorList() {
+		for (let vectorSet of This.toBeDrawnVectors) 
+		{
+			if (vectorSet.updateCount != Simulation.updates) continue;
+			This.drawVector(vectorSet);
+		}
+		This.toBeDrawnVectors = [];
+	}
+
+	this.toBeDrawnVectors = [];
+	this.cueVectorDraw = function(_data, _updateCount) {
+		_data.updateCount = _updateCount;
+		this.toBeDrawnVectors.push(_data);
+	}
 
 	this.drawVector = function({start, delta, color = '#f00'}) {
 		let posA = This.camera.worldToPxCoord(start);

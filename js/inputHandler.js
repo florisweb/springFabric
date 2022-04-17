@@ -13,7 +13,7 @@ function _InputHandler(_canvas) {
 	let mousedown = false;
 
 
-	window.addEventListener('mousedown', function(_e) {
+	_canvas.addEventListener('mousedown', function(_e) {
 		let pxPos = eventToPxCoord(_e);
 		let pos = Renderer.camera.pxToWorldCoord(pxPos);
 		mousedown = true;

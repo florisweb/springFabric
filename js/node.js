@@ -1,4 +1,4 @@
-const vectorScalar = .1;
+const vectorScalar = .02;
 
 function Node({position = new Vector(0, 0)}) {
 	this.id = Symbol();
@@ -8,7 +8,7 @@ function Node({position = new Vector(0, 0)}) {
 
 	this.nettoForce = new Vector(0, 0);
 	this.mass = 1;
-	this.update = function() {
+	this.update = function(_updateCount) {
 		let gravity = new Vector(0, 9.81 * this.mass);
 		this.nettoForce = new Vector(0, 0); // Gravity;
 
@@ -17,15 +17,14 @@ function Node({position = new Vector(0, 0)}) {
 		{
 			let springForce = spring.calcForce(this);
 			this.nettoForce.add(springForce);
-			
-			if (Renderer.settings.drawForces)
-			{
-				Renderer.drawVector({
-					start: this.position.copy().add(new Vector(-.2, 0)),
-					delta: springForce.copy().scale(vectorScalar),
-					color: '#0f0'
-				});
-			}
+		}
+		if (Renderer.settings.drawForces)
+		{
+			Renderer.cueVectorDraw({
+				start: this.position.copy().add(new Vector(-.1, 0)),
+				delta: this.nettoForce.copy().scale(vectorScalar),
+				color: '#0f0'
+			}, _updateCount);
 		}
 		
 
@@ -36,17 +35,17 @@ function Node({position = new Vector(0, 0)}) {
 
 		if (!Renderer.settings.drawForces) return;
 		
-		Renderer.drawVector({
-			start: this.position.copy().add(new Vector(.2, 0)),
+		Renderer.cueVectorDraw({
+			start: this.position.copy().add(new Vector(.1, 0)),
 			delta: gravity.copy().scale(vectorScalar),
 			color: '#00f'
-		});
+		}, _updateCount);
 	
-		Renderer.drawVector({
+		Renderer.cueVectorDraw({
 			start: this.position,
 			delta: this.nettoForce.copy().scale(vectorScalar),
 			color: '#f00'
-		});
+		}, _updateCount);
 	}
 
 	this.applyUpdate = function(_dt) {

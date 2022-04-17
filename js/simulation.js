@@ -35,7 +35,7 @@ const Simulation = new function() {
 			this.updates++;
 			for (let node of this.nodes)
 			{
-				node.update();
+				node.update(this.updates);
 			}
 
 			InputHandler.update();
