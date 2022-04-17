@@ -39,6 +39,7 @@ function _Renderer(_canvas) {
 		// ctx.strokeStyle = 'rgb(' + v + ', ' + v + ', ' + v + ')';
 		// ctx.lineWidth = 20;
 		ctx.strokeStyle = '#777';
+		if (_spring.hightlight) ctx.strokeStyle = '#f00';
 		ctx.beginPath()
 		ctx.moveTo(posA.value[0], posA.value[1]);
 		ctx.lineTo(posB.value[0], posB.value[1]);

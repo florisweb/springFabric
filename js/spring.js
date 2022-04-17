@@ -9,7 +9,7 @@ function Spring({nodeA, nodeB}) {
 	this.breakingPoint 	= 10; // Percentage of targetLength
 
 	this.calcForce = function(_node) {
-		let other = getOtherNode(_node);
+		let other = this.getOtherNode(_node);
 		let delta = other.position.difference(_node.position);
 		let dx = delta.getLength() - this.targetLength;
 		if (
@@ -31,8 +31,8 @@ function Spring({nodeA, nodeB}) {
 		this.nodeB.springs.splice(indexB, 1);
 	}
 
-	function getOtherNode(_node) {
-		if (This.nodeA.id == _node.id) return This.nodeB;
-		return This.nodeA;
+	this.getOtherNode = function(_node) {
+		if (this.nodeA.id == _node.id) return this.nodeB;
+		return this.nodeA;
 	}
 }

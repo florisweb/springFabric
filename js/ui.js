@@ -1,12 +1,28 @@
 const UI = new function() {
+	this.curTool = 'drag'; // drag or cut
+
+
 	this.settingsPanel = new UI_settingsPanel();
 	this.toolPanel = new UI_toolPanel();
 
 }
 
 function UI_toolPanel() {
+	const HTML = {
+		panel: $('#toolPanel.panel')[0],
+		options: $('#toolPanel.panel .option'),
+	}
 
+	this.selectTool = function(_tool, _html) {
+		document.body.classList.remove(UI.curTool + 'Tool');
+		UI.curTool = _tool;
+		document.body.classList.add(UI.curTool + 'Tool');
+
+		for (let option of HTML.options) option.classList.remove('selected');
+		_html.classList.add('selected');
+	}
 }
+
 function UI_settingsPanel() {
 	const This = this;
 	const HTML = {
