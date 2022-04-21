@@ -10,14 +10,16 @@ function Node({position = new Vector(0, 0)}) {
 	this.mass = 1;
 	this.update = function(_updateCount) {
 		let gravity = new Vector(0, 9.81 * this.mass);
-		this.nettoForce = new Vector(0, 0); // Gravity;
-
 
 		for (let spring of this.springs)
 		{
+			if (spring.lastCalcCount && spring.lastCalcCount >= _updateCount) continue;
 			let springForce = spring.calcForce(this);
 			this.nettoForce.add(springForce);
+			spring.getOtherNode(this).nettoForce.add(springForce.copy().scale(-1));
+			spring.lastCalcCount = _updateCount;
 		}
+
 		if (Renderer.settings.drawForces)
 		{
 			Renderer.cueVectorDraw({
@@ -28,7 +30,6 @@ function Node({position = new Vector(0, 0)}) {
 		}
 		
 
-		// let friction = this.velocity.copy().setLength(-.001);
 		let friction = this.velocity.copy().scale(-.999);
 		this.nettoForce.add(friction);
 		this.nettoForce.add(gravity);
@@ -51,12 +52,14 @@ function Node({position = new Vector(0, 0)}) {
 	this.applyUpdate = function(_dt) {
 		this.velocity.add(this.nettoForce.scale(_dt / this.mass));
 		this.position.add(this.velocity.copy().scale(_dt));
+		this.nettoForce = new Vector(0, 0); // Gravity;
 	}
 
 	this.tie = function(_other) {
 		let spring = new Spring({nodeA: this, nodeB: _other});
 		this.springs.push(spring);
 		_other.springs.push(spring);
+		Simulation.springs.push(spring);
 		return this;
 	}
 }

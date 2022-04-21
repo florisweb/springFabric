@@ -29,6 +29,9 @@ function Spring({nodeA, nodeB}) {
 		
 		let indexB = this.nodeB.springs.findIndex((_string) => _string.id == this.id);
 		this.nodeB.springs.splice(indexB, 1);
+
+		let indexS = Simulation.springs.findIndex((_string) => _string.id == this.id);
+		Simulation.springs.splice(indexS, 1);
 	}
 
 	this.getOtherNode = function(_node) {

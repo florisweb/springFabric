@@ -7,13 +7,14 @@ const Simulation = new function() {
 	}
 	this.size = new Vector(20, 10);
 	this.nodes = [];
+	this.springs = [];
 
 	this.setup = function() {
 		Renderer 		= new _Renderer(renderCanvas);
 		InputHandler 	= new _InputHandler(renderCanvas);
 		
 
-		this.update();
+		this.update(-1);
 		this.draw();
 	}	
 	this.speed = 1;
@@ -93,7 +94,9 @@ const Simulation = new function() {
 let nodes = [];
 const scale = .5;
 const width = 30;
-const height = 20;
+const height = 35;
+// const width = 2;
+// const height = 2;
 
 for (let y = 0; y < height; y++)
 {

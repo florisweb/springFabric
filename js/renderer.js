@@ -13,13 +13,13 @@ function _Renderer(_canvas) {
 	this.render = function() {
 		ctx.clearRect(0, 0, Canvas.width, Canvas.height);
 		for (let node of Simulation.nodes) drawNode(node);
+		for (let spring of Simulation.springs) drawSpring(spring);
 		drawVectorList();
 	}
 	
 	
 
 	function drawNode(_node) {
-		for (let spring of _node.springs) drawSpring(spring);
 		if (!_node.isFixed) return;
 	
 		const nodePxRadius = _node.mass / Math.PI * .25 * This.camera.getPxToWorldScalar();
